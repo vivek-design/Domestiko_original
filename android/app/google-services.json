@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "533617235819",
+    "firebase_url": "https://domestiko-3beed-default-rtdb.firebaseio.com",
+    "project_id": "domestiko-3beed",
+    "storage_bucket": "domestiko-3beed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533617235819:android:41cf20d3b630992a64de2e",
+        "android_client_info": {
+          "package_name": "com.example.domestiko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533617235819-ellpcvr0b0n1kd7sf9r1g9pkhbkr0l84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-FRkWsiAjibh0-e2QLNyV-nhwyJNwJrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533617235819-ellpcvr0b0n1kd7sf9r1g9pkhbkr0l84.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "533617235819-u1dfb6ottf49ole2hun7rof5tu5n3q9h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.domestiko"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
