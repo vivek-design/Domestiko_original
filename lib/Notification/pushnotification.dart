@@ -112,7 +112,7 @@ class pushnotificationservice {
       DatabaseReference databaseRef = FirebaseDatabase.instance.ref('Maid');
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        databaseRef.child(user.uid).child("token").set(token);
+        databaseRef.child(user.uid).child("token").set({"token":token});
         messaging.subscribeToTopic("allmaid");
         messaging.subscribeToTopic("allusers");
 

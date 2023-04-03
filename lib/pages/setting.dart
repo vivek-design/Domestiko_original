@@ -64,7 +64,7 @@ class _setting_pageState extends State<setting_page> {
                 icon: Ionicons.language_outline,
                 title: "Language",
                 onTap: () {
-                  Navigator.pushNamed(context, router.langua);
+                  Navigator.pushNamed(context, router.verify);
                 },
               ),
               const SizedBox(

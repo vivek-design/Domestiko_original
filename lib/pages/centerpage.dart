@@ -5,6 +5,7 @@ import 'dart:math' show cos, sqrt, asin;
 import 'package:domestiko/Utilities/Drawer.dart';
 import 'package:domestiko/Utilities/GeofireAssistant.dart';
 import 'package:domestiko/Utilities/Routes.dart';
+import 'package:domestiko/Utilities/circularpro.dart';
 import 'package:domestiko/Utilities/col.dart';
 import 'package:domestiko/Utilities/nearby.dart';
 import 'package:domestiko/Notification/pushnotification.dart';
@@ -22,6 +23,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../Utilities/bottomshet.dart';
+import '../auth.dart';
 import '../main.dart';
 
 import 'package:velocity_x/velocity_x.dart';
@@ -213,6 +215,7 @@ class _CentralState extends State<Central> {
     getJsonFile("assets/images/mapstyle.json").then((temp) {
       _mapStyle = temp;
     });
+    getUser();
     delref();
   }
 
@@ -237,6 +240,7 @@ class _CentralState extends State<Central> {
   @override
   Widget build(BuildContext context) {
     createIconMarker();
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 120,
@@ -339,13 +343,13 @@ class _CentralState extends State<Central> {
                     shape: CircleBorder(),
                     padding: EdgeInsets.all(24),
                     backgroundColor: rang.always),
-              ))
+              )),
         ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
         color: rang.always,
-        backgroundColor: Colors.white,
-        index: 1,
+        backgroundColor: Colors.transparent,
+        index: val,
         items: [
           Icon(Icons.history),
           Icon(Icons.home),
@@ -354,26 +358,67 @@ class _CentralState extends State<Central> {
         onTap: (index) async {
           if (index == 0) {
             await Future.delayed(const Duration(seconds: 1));
-           
+
             Navigator.pushNamed(context, router.History);
-             
-             setState(() {
-               index = 1;
-             });
           }
 
           if (index == 2) {
             await Future.delayed(const Duration(seconds: 1));
             Navigator.pushNamed(context, router.Setting);
-             index = 1;
-             setState(() {
-               index = 1;
-             });
           }
         },
       ),
       drawer: myDrawer(),
     );
+  }
+
+  void getUser() async {
+    DatabaseReference databaseRefu = FirebaseDatabase.instance.ref('User');
+    final user = Auth().currentUser;
+    var dataSnapshot;
+
+    await databaseRefu.child(user!.uid).once().then((Event) {
+      dataSnapshot = Event.snapshot.exists;
+    });
+
+    if (dataSnapshot != null) {
+      Userdet.role = "User";
+      Stream<DatabaseEvent> stream = databaseRefu.onValue;
+      stream.listen((DatabaseEvent event) {
+        print('Event Type: ${event.type}'); // DatabaseEventType.value;
+
+        Map<Object?, Object?> map1 = event.snapshot.value as Map;
+
+        print(map1[user.uid]);
+        Map mp2 = map1[user.uid] as Map;
+        Userdet.name = mp2['Name'];
+        Userdet.email = mp2['Email'];
+        Userdet.age = mp2['Age'];
+        Userdet.gender = mp2['gender'];
+        Userdet.Phone = mp2['Phone'];
+      });
+    } else {
+      print(user.uid);
+      Userdet.role = "Maid";
+      DatabaseReference maidref = FirebaseDatabase.instance.ref('Maid');
+      maidref.child(user.uid);
+      Stream<DatabaseEvent> stream = maidref.onValue;
+      await stream.listen((DatabaseEvent event) {
+        print('Event Type: ${event.type}'); // DatabaseEventType.value;
+
+        // print('Snapshot: ${(event.snapshot.value as Map)["cost"]}');
+
+        Map<Object?, Object?> map1 = event.snapshot.value as Map;
+        print(map1);
+
+        Map mp2 = map1[user.uid] as Map;
+        Userdet.name = mp2['Name'];
+        Userdet.email = mp2['Email'];
+        Userdet.age = mp2['Age'];
+        Userdet.gender = mp2['gender'];
+        Userdet.Phone = mp2['Phone'];
+      });
+    }
   }
 }
 
@@ -389,206 +434,284 @@ class _popupcontainState extends State<popupcontain> {
   Color for2 = Colors.white;
   Color for3 = Colors.white;
   late List<NearbyMaid> avialablemaid;
-
+  var flag = false;
+  double waitinghight = 0;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(20),
-        child: Column(children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                for3 = Colors.white;
-                for2 = Colors.white;
-                for1 = rang.always;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: for1,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(
-                      "assets/images/4567e7e287816c6c9e2160ea4fbaa3a9.jpg"),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Text(
-                  "For  30 min. of work",
-                  style: (TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  )),
-                ),
-                SizedBox(
-                  width: 60,
-                ),
-                Text(
-                  "Rs. 200/-",
-                  style: (TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  )),
-                ),
-              ]),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                for1 = Colors.white;
-                for3 = Colors.white;
-                for2 = rang.always;
-                ;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: for2,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(
-                      "assets/images/WhatsApp Image 2023-01-15 at 23.35.43.jpeg"),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  "For 1 hr of work ",
-                  style: (TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  )),
-                ),
-                SizedBox(
-                  width: 60,
-                ),
-                Text(
-                  "Rs. 400/-",
-                  style: (TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  )),
-                ),
-              ]),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                for1 = Colors.white;
-                for2 = Colors.white;
-                for3 = rang.always;
-                ;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: for3, borderRadius: BorderRadius.circular(10)),
-              child: Row(children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(
-                      "assets/images/WhatsApp Image 2023-01-15 at 23.36.27.jpeg"),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Text(
-                  "For 2 hr of work",
-                  style: (TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  )),
-                ),
-                SizedBox(
-                  width: 60,
-                ),
-                Text(
-                  "Rs. 500/-",
-                  style: (TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  )),
-                ),
-              ]),
-            ),
-          ),
-          SizedBox(
-            height: 60,
-          ),
-          InkWell(
-            onTap: () async {
-              avialablemaid = GeoFireAssistant.nearbyMaidList;
-
-              if (for1 == rang.always ||
-                  for2 == rang.always ||
-                  for3 == rang.always) {
-                final User = FirebaseAuth.instance.currentUser;
-
-                Position position = await Geolocator.getCurrentPosition(
-                    desiredAccuracy: LocationAccuracy.high);
-                int price = 0;
-                int time = 0;
-                if (for1 == rang.always) {
-                  price = 200;
-                  time = 30;
-                } else if (for2 == rang.always) {
-                  price = 400;
-                  time = 60;
-                } else {
-                  price = 500;
-                  time = 120;
-                }
-
-                DatabaseReference databaseR =
-                    FirebaseDatabase.instance.ref('Request');
-                if (User != null) {
-                  databaseR.child(User.uid).set({
-                    'latitude': position.latitude,
-                    'longitude': position.longitude,
-                    'request_id': User.uid,
-                    'cost': price,
-                    'time': time,
-                    'status': 'searching'
+    return Stack(children: [
+      Positioned(
+        child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    for3 = Colors.white;
+                    for2 = Colors.white;
+                    for1 = rang.always;
                   });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: for1,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          "assets/images/4567e7e287816c6c9e2160ea4fbaa3a9.jpg"),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "For  30 min. of work",
+                      style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                      )),
+                    ),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text(
+                      "Rs. 200/-",
+                      style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                      )),
+                    ),
+                  ]),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    for1 = Colors.white;
+                    for3 = Colors.white;
+                    for2 = rang.always;
+                    ;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: for2,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          "assets/images/WhatsApp Image 2023-01-15 at 23.35.43.jpeg"),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "For 1 hr of work ",
+                      style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                      )),
+                    ),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text(
+                      "Rs. 400/-",
+                      style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                      )),
+                    ),
+                  ]),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    for1 = Colors.white;
+                    for2 = Colors.white;
+                    for3 = rang.always;
+                    ;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: for3, borderRadius: BorderRadius.circular(10)),
+                  child: Row(children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          "assets/images/WhatsApp Image 2023-01-15 at 23.36.27.jpeg"),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "For 2 hr of work",
+                      style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                      )),
+                    ),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text(
+                      "Rs. 500/-",
+                      style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                      )),
+                    ),
+                  ]),
+                ),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              InkWell(
+                onTap: () async {
+                  avialablemaid = GeoFireAssistant.nearbyMaidList;
 
-                  serchNearbyMaid(context);
-                }
-              } else {
-                Fluttertoast.showToast(
-                    msg: "Please select one of the above plans");
-              }
-            },
-            child: Ink(
-              height: 50,
-              width: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: rang.always,
+                  if (for1 == rang.always ||
+                      for2 == rang.always ||
+                      for3 == rang.always) {
+                    final User = FirebaseAuth.instance.currentUser;
+
+                    Position position = await Geolocator.getCurrentPosition(
+                        desiredAccuracy: LocationAccuracy.high);
+                    int price = 0;
+                    int time = 0;
+                    if (for1 == rang.always) {
+                      price = 200;
+                      time = 30;
+                    } else if (for2 == rang.always) {
+                      price = 400;
+                      time = 60;
+                    } else {
+                      price = 500;
+                      time = 120;
+                    }
+
+                    DatabaseReference databaseR =
+                        FirebaseDatabase.instance.ref('Request');
+                    if (User != null) {
+                      databaseR.child(User.uid).set({
+                        'latitude': position.latitude,
+                        'longitude': position.longitude,
+                        'request_id': User.uid,
+                        'cost': price,
+                        'time': time,
+                        'status': 'searching'
+                      });
+                      //    showBottomSheet(
+                      // context: context,
+                      // builder: (BuildContext context) {
+                      //   return SizedBox(
+                      //     height: 400,
+                      //     child: popupcontain(),
+                      //   );
+                      // });
+
+                      setState(() {
+                        serchNearbyMaid(context);
+                        waitinghight = 400;
+                      });
+                    }
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Please select one of the above plans");
+                  }
+                },
+                child: Ink(
+                  height: 50,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: rang.always,
+                  ),
+                  child: Center(
+                    child: Text("Engage",
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
               ),
-              child: Center(
-                child: Text("Engage",
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ),
-            ),
-          ),
-        ]));
+            ])),
+      ),
+      Positioned(
+          child: Container(
+              height: waitinghight,
+              child: Stack(
+                children: [
+                 
+                  Align(
+                    alignment: FractionalOffset.topCenter,
+                    child: Container(
+                      child: circularindi(),
+                    ),
+                  ),
+                  Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: InkWell(
+                      onTap: () {
+                        cancelreq();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 60,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(colors: [
+                              Color.fromRGBO(143, 148, 251, 1),
+                              Color.fromRGBO(143, 148, 251, 6),
+                            ])),
+                        child: Center(
+                          child: Text("Cancle",
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+                   Positioned(
+                    top: 50,
+                    left: 85,
+
+                    child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(20)),
+                      child: "Finding the nearest maid".text.bold.xl.make(),
+                    ),
+                  ),
+                ],
+              ))),
+    ]);
+  }
+
+  void cancelreq() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DatabaseReference reqref;
+      reqref = FirebaseDatabase.instance.ref('Request').child(user.uid);
+      await reqref.remove();
+    }
   }
 
   void serchNearbyMaid(BuildContext context) {

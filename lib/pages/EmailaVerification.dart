@@ -124,7 +124,7 @@ class _emailverifiedState extends State<emailverified> {
           onPressed: () async {
             await Auth().sendEmailverifiacation();
             final User? user = Auth().currentUser;
-
+            
             if (user?.emailVerified ?? false) {
               login_page();
             }
@@ -140,7 +140,7 @@ class _emailverifiedState extends State<emailverified> {
           child: const Text('send email verification '),
         ),
         SizedBox(
-          height: 10,
+          height: 30,
         ),
 
         // const Text('If you have not received press the button below '),
@@ -151,7 +151,7 @@ class _emailverifiedState extends State<emailverified> {
           onPressed: () async  {
              await Auth().signOut();
             Navigator.pushNamedAndRemoveUntil(
-                context, router.registerr, (route) => false);
+                context, router.loginroute, (route) => false);
           },
 
           //in the curent code base we are just authenticating user with email and password
@@ -161,7 +161,7 @@ class _emailverifiedState extends State<emailverified> {
 
           //it provides authentication and communicate with the firebase directly we dont need to specify seperaterly
           //now there is one layer between ui and  firebase
-          child: const Text('Reset '),
+          child: const Text('Login' ),
         ),
       ]),
     ));

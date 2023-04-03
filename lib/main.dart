@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:domestiko/Notification/jobdialog.dart';
+import 'package:domestiko/Utilities/UserModel.dart';
 import 'package:domestiko/Utilities/circularpro.dart';
 import 'package:domestiko/Utilities/language.dart';
 import 'package:domestiko/Utilities/nomaidavailable.dart';
@@ -36,6 +37,8 @@ import 'firebase_options.dart';
 
 bool value = false;
 
+var Userdet = userdet();
+var val = 1;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -67,11 +70,11 @@ class MyApp extends StatelessWidget {
         router.verify: (context) => emailverified(),
         router.center: (context) => Central(),
         router.contact: (context) => contactus(),
-     
+
         router.maid: (context) => maidpage(),
         router.Nomaidavail: (context) => NomaidAvailableDialog(),
-        router.langua:(context)=>langu(),
-        router.editinfo:(context)=>Editinfo(),
+        router.langua: (context) => langu(),
+        router.editinfo: (context) => Editinfo(),
 
         // accepted_page.(router.acceptedpage): (context) =>
         //       accepted_page(Readme: mm ,),
@@ -98,7 +101,11 @@ class _HomePageState extends State<HomePage> {
   var value;
   Future<bool> data() async {
     User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      print(user.uid);
+    }
     if (user == null) {
+      print(1);
       return false;
     }
     DatabaseReference databaseRefu = FirebaseDatabase.instance.ref('User');
@@ -107,10 +114,13 @@ class _HomePageState extends State<HomePage> {
       dataSnapshot = Event.snapshot.exists;
     });
 
-    if (dataSnapshot == null) {
+    if (dataSnapshot == false) {
       value = false;
+      print(2);
       return false;
     }
+   
+  
     value = true;
     return true;
   }

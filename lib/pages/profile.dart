@@ -56,7 +56,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: del(),
-      builder: (context,  snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
             backgroundColor: Colors.white,
@@ -144,7 +144,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Container(
                     //all the remaining profile options
-
+                    padding: EdgeInsets.all(30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       // mainAxisAlignment: MainAxisAlignment.start,
@@ -152,7 +152,7 @@ class _ProfileState extends State<Profile> {
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                           child: Text(
-                            "Role:   $role",
+                            "  Role ",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -160,25 +160,22 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
-                          child: Text(
-                            "Username:  $username",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: "$role".text.bold.make(),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        20.heightBox,
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                           child: Text(
-                            "Email: $email",
+                            "  Username ",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -186,12 +183,22 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: "$username".text.bold.make(),
+                        ),
+                        20.heightBox,
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                           child: Text(
-                            "Phone:   $phone",
+                            "  Email",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -199,12 +206,22 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 200, 0),
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: "$email".text.bold.make(),
+                        ),
+                        20.heightBox,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                           child: Text(
-                            "Age:   $age",
+                            "  Phone ",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -212,18 +229,64 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 200, 0),
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: "$phone".text.bold.make(),
+                        ),
+                        20.heightBox,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                           child: Text(
-                            "Gender:   $gender",
+                            "  Age ",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: "$age".text.bold.make(),
+                        ),
+                        20.heightBox,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                          child: Text(
+                            "  Gender ",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: "$gender".text.bold.make(),
+                        ),
+                        20.heightBox,
                       ],
                     ),
                   )
@@ -235,13 +298,12 @@ class _ProfileState extends State<Profile> {
           return Container(
             color: Colors.white,
             child: Center(
-              child: Lottie.network(
-                "https://assets2.lottiefiles.com/private_files/lf30_ixykrp0i.json",
-                repeat: true,
-                height: 150,
-                width:150,
-              )
-            ),
+                child: Lottie.network(
+              "https://assets2.lottiefiles.com/private_files/lf30_ixykrp0i.json",
+              repeat: true,
+              height: 150,
+              width: 150,
+            )),
           );
         }
       },
@@ -258,7 +320,7 @@ class _ProfileState extends State<Profile> {
       dataSnapshot = Event.snapshot.exists;
     });
 
-    if (dataSnapshot != null) {
+    if (dataSnapshot == true) {
       role = "User";
       Stream<DatabaseEvent> stream = databaseRefu.onValue;
       stream.listen((DatabaseEvent event) {
@@ -267,7 +329,7 @@ class _ProfileState extends State<Profile> {
         Map<Object?, Object?> map1 = event.snapshot.value as Map;
 
         print(map1[user.uid]);
-        Map mp2 = map1[user.uid] as Map;
+        Map<dynamic, dynamic> mp2 = map1[user.uid] as Map;
         username = mp2['Name'];
         email = mp2['Email'];
         age = mp2['Age'];
@@ -285,13 +347,14 @@ class _ProfileState extends State<Profile> {
       await stream.listen((DatabaseEvent event) {
         print('Event Type: ${event.type}'); // DatabaseEventType.value;
 
-        // print('Snapshot: ${(event.snapshot.value as Map)["cost"]}');
+        print('Snapshot: ${(event.snapshot.value)}');
 
-        Map<Object?, Object?> map1 = event.snapshot.value as Map;
+        Map map1 = event.snapshot.value as Map;
         print(map1);
 
         Map mp2 = map1[user.uid] as Map;
         username = mp2['Name'];
+        print(username);
         email = mp2['Email'];
         age = mp2['Age'];
         gender = mp2['gender'];

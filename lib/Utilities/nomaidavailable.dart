@@ -51,7 +51,7 @@ class _NomaidAvailableDialogState extends State<NomaidAvailableDialog> {
                   height: 10.0,
                 ),
                 Text(
-                  "No Maid avialable in your area",
+                  "No Maid is open fow work in your area",
                   style: TextStyle(
                       fontFamily: 'Brand-Bold',
                       fontSize: 15.0,
@@ -61,7 +61,7 @@ class _NomaidAvailableDialogState extends State<NomaidAvailableDialog> {
                   height: 10,
                 ),
                 Text(
-                  "Try agian after some  time  ",
+                  "Try again after some  time  ",
                   style: TextStyle(
                       fontFamily: 'Brand-Bold',
                       fontSize: 15.0,

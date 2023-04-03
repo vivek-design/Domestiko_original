@@ -157,12 +157,13 @@ class _registerviewState extends State<registerview> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color.fromRGBO(143, 148, 251, 1),
-                            blurRadius: 20.0,
-                            offset: Offset(0, 10))
-                      ]),
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //       color: Color.fromRGBO(143, 148, 251, 1),
+                      //       blurRadius: 20.0,
+                      //       offset: Offset(0, 10))
+                      // ]
+                      ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -191,7 +192,10 @@ class _registerviewState extends State<registerview> {
                       ),
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(),
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)
+                        ),
                         child: TextFormField(
                             controller: name,
                             decoration: InputDecoration(
@@ -205,9 +209,13 @@ class _registerviewState extends State<registerview> {
                               return null;
                             }),
                       ),
+                       SizedBox(
+                        height: 20,
+                      ),
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(),
+                        decoration: BoxDecoration(  border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
                         child: TextFormField(
                             controller: age,
                             decoration: InputDecoration(
@@ -223,10 +231,14 @@ class _registerviewState extends State<registerview> {
                               return null;
                             }),
                       ),
+                       SizedBox(
+                        height: 20,
+                      ),
 
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(),
+                        decoration: BoxDecoration(  border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
                         child: Row(
                           children: [
                             Text("Gender :"),
@@ -254,10 +266,14 @@ class _registerviewState extends State<registerview> {
                           ],
                         ),
                       ),
+                       SizedBox(
+                        height: 20,
+                      ),
 
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(),
+                        decoration: BoxDecoration(  border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
                         child: TextFormField(
                             controller: _email,
                             decoration: InputDecoration(
@@ -271,10 +287,14 @@ class _registerviewState extends State<registerview> {
                               return null;
                             }),
                       ),
+                       SizedBox(
+                        height: 20,
+                      ),
 
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(),
+                        decoration: BoxDecoration(  border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
                         child: TextFormField(
                           controller: phone,
                           decoration: InputDecoration(
@@ -283,10 +303,14 @@ class _registerviewState extends State<registerview> {
                               hintStyle: TextStyle(color: Colors.grey[400])),
                         ),
                       ),
+                       SizedBox(
+                        height: 20,
+                      ),
 
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(),
+                        decoration: BoxDecoration(  border: Border.all(),
+                              borderRadius: BorderRadius.circular(20)),
                         child: TextFormField(
                             controller: _password,
                             obscureText: true,
@@ -301,7 +325,7 @@ class _registerviewState extends State<registerview> {
                               return null;
                             }),
                       ),
-
+                       
                       // Container(
                       //   decoration: BoxDecoration(
                       //     borderRadius: BorderRadius.circular(40),
