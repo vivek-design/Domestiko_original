@@ -1,0 +1,69 @@
+name: "Build and release "
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+       - name: Checkout Repository
+         uses: actions/checkout@v3
+
+       - name: Set up Java 
+         uses : actions/setup-java@v3.12.0
+         with:
+           distribution: 'oracle'
+           java-version: '17'
+
+       - name: Set up Flutter 
+         uses: subosito/flutter-action@v2
+         with: 
+           flutter-version: '3.13.2'
+           channel: 'stable'
+
+       - name: Install Dependencies 
+         run: flutter pub get 
+
+     
+    
+
+       - name : Build Apk
+         run : flutter build apk --release
+
+       - name : Build appBundle
+         run : flutter build appbundle 
+ #In summary, building an IPA file is a critical step in
+ #iOS app development, as it's the format required for 
+ #app distribution, testing, ad hoc deployment, and 
+ #submission to the App Store. It encapsulates your
+ #app's binary and associated resources in a package
+ #that can be signed, distributed, and installed on
+ #iOS devices.
+       - name : Build IPA 
+         run : flutter build ipa --no-codesign
+       - name: Compress   Archieves and IPAs
+         run: |
+           cd build
+           tar -czf ios_build.tar.gz ios
+
+
+       - name: Upload Artifacts
+         uses: actions/upload-artifact@v2
+         with:
+          name: Releases
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.abb
+            build/ios_build.tar.gz
+
+       - name : Create Release
+         uses: ncipollo/release-action@v1
+         with: 
+           artifacts: " build/app/outputs/flutter-apk/app-release.apk, build/app/outpusts/bundle/release/app-release.abb,build/ios_build.tar.gz "
+           tag: v1.0.${{github.run_number}}
+           token: ${{secrets.TOKEN}}
