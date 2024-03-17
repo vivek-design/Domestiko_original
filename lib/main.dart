@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: router.homepage,
 
+
       routes: {
         router.registerr2: (context) => registermaid(),
         router.Setting: (context) => setting_page(),
