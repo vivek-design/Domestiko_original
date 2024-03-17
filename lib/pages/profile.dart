@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:domestiko/Utilities/col.dart';
 import 'package:domestiko/Utilities/global.dart';
 import 'package:domestiko/auth.dart';
