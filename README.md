@@ -1,12 +1,12 @@
-# domestiko
+# Domestiko
 
-A new Flutter project.
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-This project is all about hiring a nearby maid available 
-in this project we have used velocity x cuertino icon google maps api which is also 
+
+This project is all about hiring a nearby maid available within the radius of 5 km using cloud messaging.
+In this project we have used velocity x cuertino icon google maps api which is also 
 customized and then in backend we have used firebase .
 
 
