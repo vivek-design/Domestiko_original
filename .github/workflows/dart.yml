@@ -59,6 +59,6 @@ jobs:
        - name : Create Release
          uses: ncipollo/release-action@v1
          with: 
-           artifacts: " build/app/outputs/flutter-apk/app-release.apk, build/app/outpusts/bundle/release/app-release.abb, "
+           artifacts: " build/app/outputs/flutter-apk/app-release.apk, build/app/outputs/bundle/release/app-release.abb, "
            tag: v1.0.${{github.run_number}}
            token: ${{secrets.TOKEN}}
