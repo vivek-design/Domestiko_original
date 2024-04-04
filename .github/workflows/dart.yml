@@ -44,12 +44,7 @@ jobs:
  #app's binary and associated resources in a package
  #that can be signed, distributed, and installed on
  #iOS devices.
-       - name : Build IPA 
-         run : flutter build ipa --no-codesign
-       - name: Compress   Archieves and IPAs
-         run: |
-           cd build
-           tar -czf ios_build.tar.gz ios
+      
 
 
        - name: Upload Artifacts
@@ -59,11 +54,11 @@ jobs:
           path: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.abb
-            build/ios_build.tar.gz
+           
 
        - name : Create Release
          uses: ncipollo/release-action@v1
          with: 
-           artifacts: " build/app/outputs/flutter-apk/app-release.apk, build/app/outpusts/bundle/release/app-release.abb,build/ios_build.tar.gz "
+           artifacts: " build/app/outputs/flutter-apk/app-release.apk, build/app/outpusts/bundle/release/app-release.abb, "
            tag: v1.0.${{github.run_number}}
            token: ${{secrets.TOKEN}}
